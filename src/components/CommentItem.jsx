@@ -1,9 +1,9 @@
 export function CommentItem ({comment}) {
     return (
-      <ul> 
-      <li> {comment.name}</li>
-       <li>{comment.body}</li>
-       <li> { comment.email }</li> 
+      <ul className="myUnOrderedList"> 
+      <li><strong>Name: </strong> {comment.name}</li>
+       <li><strong>Body: </strong> {comment.body}</li>
+       <li><strong>Email: </strong>  { comment.email }</li> 
        </ul>
     )
 }

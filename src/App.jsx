@@ -1,4 +1,5 @@
 import './App.css';
+import './styles.css';
 import {useState } from "react"
 import {PostItem} from "./components/PostItem"
 import {UserInput} from "./components/UserInput"

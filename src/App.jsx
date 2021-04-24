@@ -1,6 +1,6 @@
 import './App.css';
 import {useState, useEffect } from "react"
-
+import {PostItem} from "./components/PostItem"
 
 
 
@@ -19,12 +19,8 @@ function App() {
       <h1>User Posts</h1>
 
       { posts.map((post) => {
-        console.log(post);
-       return <ul key={post.userId}> 
-       <li> {post.userId}</li>
-        <li>{post.title}</li>
-        <li> { post.body }</li> 
-        </ul>
+        // console.log(post);
+       return <PostItem  key={post.id} post = {post} />
       }) }
     </div>
   );

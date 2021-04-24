@@ -7,6 +7,7 @@ import {PostItem} from "./components/PostItem"
 function App() {
 
   const [posts, setPosts] = useState([])
+  // const [userId, setUserId] = useState([])
 
   useEffect(() => {
     fetch('https://jsonplaceholder.typicode.com/posts')

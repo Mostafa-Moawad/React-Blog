@@ -13,8 +13,6 @@ function App() {
 
   
   const [posts, setPosts] = useState([])
-    
-
 
 
   const handlePostList = (user_id) => {

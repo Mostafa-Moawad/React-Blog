@@ -1,8 +1,9 @@
 
 import {PostItem} from "./PostItem";
 import CommentList from "./CommentList";
+import NavBar from "./NavBar";
 import {useState } from "react";
-export default function PostList({posts}) {
+export default function PostList({posts, authUser}) {
 
     const [comments, setComments] = useState([])
       
@@ -17,6 +18,8 @@ export default function PostList({posts}) {
 
     return (
         <div>
+
+            <NavBar authUser={authUser} />
          <div className="posts-container">
                 { posts.map((post) => {
             return <PostItem  key={post.id} post = {post} handleCommentList = {handleCommentList} />

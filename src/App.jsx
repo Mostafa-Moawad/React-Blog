@@ -7,8 +7,13 @@ import {PostItem} from "./components/PostItem"
 import {UserInput} from "./components/UserInput"
 import {CommentItem} from "./components/CommentItem"
 import PostList from './components/PostList';
+import CommentList from './components/CommentList';
 import { Login2 } from './components/Login2';
 import { navigate, Router } from "@reach/router";
+import { UserContext } from "./UserContext";
+import CreatePost from "./components/CreatePost";
+import NavBar from "./components/NavBar";
+
 
 
 function App() {
@@ -27,10 +32,12 @@ function App() {
           console.log(fetchedUser[0].id + " userid");
           handlePostList(fetchedUser[0].id)  
 
-          navigate("/")
+          
+          navigate("/home")
       }
       else{
         console.log("error while routing");
+        navigate("/")
         
       }
 
@@ -44,20 +51,34 @@ function App() {
     .then(json => setPosts(json))
   }
 
-  const NotFound = () => <p>Sorry, nothing here</p>
-  
-
   return (
-    
-      <Router>
-       
 
-        {/* <NotFound default /> */}
-        <Login2 path="/login" handleLogin={handleLogin} />
+    <div className="container">
+
+
+        {authUser.length>0 ? (
+          <NavBar authUser={authUser} />
+        ) : (
+          <br/>
+        )}
+        
+          <Router>
+          
        
-        <PostList path="/" posts= {posts}  authUser={authUser} path="/" />
+        
+        <Login2 path="/" handleLogin={handleLogin} />
+       
+        <PostList path="/home" posts= {posts}  authUser={authUser}  />
+
+        <CreatePost path="/createpost" posts= {posts}  authUser={authUser}  />
+
+        <CommentList path="/comments"  authUser={authUser}  />
+
+        <Login2 default handleLogin={handleLogin} />
        
       </Router>
+
+      </div>
       
     
   );

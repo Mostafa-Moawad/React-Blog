@@ -3,7 +3,16 @@ import {Link} from "@reach/router";
 
 
 
-export default function NavBar({authUser}) {
+export default function NavBar({loggedIn}) {
+   if(localStorage.getItem("userName")){
+
+       loggedIn = true
+
+   }else{
+
+       loggedIn = false
+   }
+    
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <a className="navbar-brand" link_to="/">Blog</a>
@@ -12,18 +21,42 @@ export default function NavBar({authUser}) {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
-            <li className="nav-item active">
-                {/* <a className="nav-link" link_to="/"> {authUser[0].name} </a> */}
-                <Link className="nav-link" to="/"> {authUser[0].name}</Link>
-            </li>
-            <li className="nav-item active">
-               
-                <Link className="nav-link"
-                    to='/createpost'
-                >
-                   Create Post
-                </Link>
-            </li>
+            {loggedIn  ? (
+               <> 
+                 <li className="nav-item active">
+                     <Link className="nav-link" to="/home"> {localStorage.getItem("userName")}</Link>
+                </li>
+                <li className="nav-item active">
+              
+                    <Link className="nav-link"
+                        to='/createpost'
+                    >
+                        Create Post
+                    </Link>
+                </li> 
+
+                <li className="nav-item active">
+                    <Link className="nav-link"
+                        to='/logout'
+                    >
+                        Logout
+                    </Link>
+                    </li>
+                </>
+                ) : (
+
+                    <>
+                    <li className="nav-item active">
+                    <Link className="nav-link"
+                        to='/login'
+                    >
+                        Login
+                    </Link>
+                    </li>
+                    
+                    </>
+                )}
+            
             </ul>
         </div>
         </nav>

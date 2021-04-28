@@ -1,26 +1,23 @@
 import './App.css';
 import './styles.css';
 import 'bootstrap/dist/css/bootstrap.css';
-
 import {useState } from "react"
-import {PostItem} from "./components/PostItem"
-import {UserInput} from "./components/UserInput"
-import {CommentItem} from "./components/CommentItem"
 import PostList from './components/PostList';
 import CommentList from './components/CommentList';
 import { Login2 } from './components/Login2';
 import { navigate, Router } from "@reach/router";
-import { UserContext } from "./UserContext";
 import CreatePost from "./components/CreatePost";
 import NavBar from "./components/NavBar";
+import AuthGuard from "./components/AuthGuard";
+import Logout from "./components/Logout";
 
 
 
 function App() {
 
   
-  const [posts, setPosts] = useState([])
   const [authUser, setAuthUser] = useState([])
+  const [loggedIn, setLoggedIn] = useState(false)
   
   const handleLogin = (userEmail,userName) => {
     fetch(`https://jsonplaceholder.typicode.com/users?username=${userName}&email=${userEmail}`)
@@ -29,57 +26,57 @@ function App() {
       if(fetchedUser.length>0)
       {   
           setAuthUser(fetchedUser)
-          console.log(fetchedUser[0].id + " userid");
-          handlePostList(fetchedUser[0].id)  
-
+          localStorage.setItem("userId",fetchedUser[0].id)
+          localStorage.setItem("userName",fetchedUser[0].username)
+          setLoggedIn(true)
+          
           
           navigate("/home")
       }
       else{
+
+        alert("Hello\nThere is an error in your log in info.\nplease check jsonplaceholder website for users data");
         console.log("error while routing");
-        navigate("/")
+        navigate("/login")
         
       }
 
     })
   }
 
-  const handlePostList = (user_id) => {
-    
-    fetch(`https://jsonplaceholder.typicode.com/users/${user_id}/posts`)
-    .then(response => response.json())
-    .then(json => setPosts(json))
-  }
+  
 
+  
   return (
 
     <div className="container">
 
 
-        {authUser.length>0 ? (
-          <NavBar authUser={authUser} />
-        ) : (
-          <br/>
-        )}
         
-          <Router>
+        
+        <NavBar loggedIn={loggedIn} />
+        <Router>
           
        
         
-        <Login2 path="/" handleLogin={handleLogin} />
-       
-        <PostList path="/home" posts= {posts}  authUser={authUser}  />
+        
 
-        <CreatePost path="/createpost" posts= {posts}  authUser={authUser}  />
+        <AuthGuard path="/" >
+          
+            <PostList path="/home"   />
 
-        <CommentList path="/comments"  authUser={authUser}  />
+            <CreatePost path="/createpost"   />
 
-        <Login2 default handleLogin={handleLogin} />
+            <CommentList path="/comments"  authUser={authUser}  />
+
+        </AuthGuard>
+
+        <Login2 path="/login" handleLogin={handleLogin} />
+        <Logout path="/logout" setLoggedIn={setLoggedIn} />
        
       </Router>
 
       </div>
-      
     
   );
 }

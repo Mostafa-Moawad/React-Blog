@@ -2,14 +2,16 @@
 
 
 import {useState } from "react"
-import NavBar  from "./NavBar"
+import { navigate } from "@reach/router";
+
 
 
 
 export default function CreatePost({authUser}) {
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
-    let user_id = authUser[0].id
+    
+    let user_id = localStorage.getItem("userId")
     const handleCreatePost = (title,body,user_id) => {
     
         // fetch(`https://jsonplaceholder.typicode.com/users/${user_id}/posts`)
@@ -27,12 +29,12 @@ export default function CreatePost({authUser}) {
         },
         })
         .then((response) => response.json())
-        .then((json) => console.log(json));
+        .then((json) =>{ console.log(json); alert("Post is Created Successfully !");
+         navigate("/home")});
       }
     
     return (
         <div className="create-post-container">
-        <NavBar authUser={authUser} />
         <label > Body</label><input className="myInput" type="text" onChange ={(e) => setBody(e.target.value)  } value={body}  />
         <label > Title</label><input className="myInput" type="text" onChange ={(e) => setTitle(e.target.value)  } value={title} />
 

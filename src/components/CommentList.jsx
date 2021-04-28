@@ -3,7 +3,7 @@ import {CommentItem} from "./CommentItem"
 import { PostItem } from "./PostItem";
 
 export default function CommentList(props) {
-
+    console.log(props);
     return (
         
       <div className="comments-container container">

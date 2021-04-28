@@ -1,18 +1,28 @@
 
 import {PostItem} from "./PostItem";
-import CommentList from "./CommentList";
-import NavBar from "./NavBar";
-import {useState } from "react";
+import {useState, useEffect } from "react";
 import { navigate } from "@reach/router";
-export default function PostList({posts, authUser}) {
+export default function PostList({}) {
 
 
-
-
+    const [posts, setPosts] = useState([])
     const [comments, setComments] = useState([])
+
+    useEffect(() => {
+
+        fetch(`https://jsonplaceholder.typicode.com/users/${localStorage.getItem("userId")}/posts`)
+        .then(response => response.json() )
+        .then(json => {setPosts(json); console.log(json);})
+        
+    }, [])
+
+
+   
       
 
     const handleCommentList = (post_id,post) => {
+
+        
   
       fetch(`https://jsonplaceholder.typicode.com/posts/${post_id}/comments`)
       .then(response => response.json())
@@ -34,8 +44,6 @@ export default function PostList({posts, authUser}) {
                 </div>
             }) }
          </div>
-
-         {/* <CommentList comments = {comments} /> */}
 
          </div>
 
